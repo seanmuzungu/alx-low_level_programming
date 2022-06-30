@@ -9,7 +9,7 @@
  */
 
 int main(void)
-i{
+{
 	int intType;
 	float floatType;
 	double doubleType;
