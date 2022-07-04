@@ -1,9 +1,10 @@
 #include <stdio.h>
 
 /**
- * * * main - Entry point
- * Description: 'the program's description'
- * Return: Always 0 (Success):wq
+ * main entry point
+ * The main programm happens here
+ * `everything else ma1
+ * Return: Always retuns 0
  */
 
 int main(void)
