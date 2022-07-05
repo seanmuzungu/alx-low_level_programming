@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 /**
- * * * main - Entry point 
- * Description: 'the program's description' 
+ * * * main - Entry point
+ * Description: 'the program's description'
  * Return: Always 0 (Success):
  */
 
@@ -13,6 +13,5 @@ int main(void)
 	for (a = 'z'; a >= 'a'; a--)
 	putchar(a);
 	putchar('\n');
-	
-	return (0); 
+	return (0);
 }
