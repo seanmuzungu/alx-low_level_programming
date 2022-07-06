@@ -1,4 +1,4 @@
-#includes "mai.h"
+#includes "main.h"
 
 /**
  * print_last_digit - prunts last digit
