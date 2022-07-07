@@ -1,5 +1,5 @@
-#include "main'h"
-#include <stdio.h> 
+#include <stdio.h>
+
 /** 
  * main - all the numbers below 1024
  *  Return: Always 0. 
