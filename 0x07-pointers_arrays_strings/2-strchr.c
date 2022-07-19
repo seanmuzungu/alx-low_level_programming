@@ -1,4 +1,4 @@
-i#include "main.h"
+#include "main.h"
 
 /**
  *_strchr-locates charachter in a string
@@ -7,6 +7,7 @@ i#include "main.h"
  *Return: if c is found - a pointer to its first occurance
  *                      - if c is not found NULL
  */
+
 char *_strchr(char *s, char c)
 {
 	int ln = 0;
