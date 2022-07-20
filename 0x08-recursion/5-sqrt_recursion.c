@@ -2,21 +2,16 @@
 
 /**
  *_sqrt_recursion- returns the natural square root of a number
- *@n: the number to return the square root of
- *
+ *@n: the number to return the square root oif
  *Return: square root if it has natural square root if not return -1
  */
 int _sqrt_recursion(int n)
 {
-	int root = 0;
+	int square = i * i;
 
-	if (n < 0)
-	{
+	if (square > n)
 		return (-1);
-	}
-	if (n == 1)
-	{
-		return (1);
-	}
-	return (find_sqrt(n, root));
+	if (square == n)
+		return (i);
+	return (_sqrt_recursion, i + 1);
 }
