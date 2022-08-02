@@ -2,76 +2,82 @@
 #include <stdlib.h>
 
 int _strlen(char *str);
-int _strcpy(char *dest, char *src);
+char *_strcopy(char *dest, char *src);
 dog_t *new_dog(char *name, float age, char *owner);
-/**
- *  *_strlen-finds length of string
- *   *@str: the string to be mmeasured
- *    *Return: the length of the string
- *     */
 
+/**
+ *  * _strlen - Finds the length of a string.
+ *   * @str: The string to be measured.
+ *    *
+ *     * Return: The length of the string.
+ *      */
 int _strlen(char *str)
 {
 		int len = 0;
 
-			while (str[len] != '\0')
+			while (*str++)
 						len++;
+
 				return (len);
 }
 
 /**
- *  *new_dog- creats a new dog
- *   *@name: the name of the dog
- *    *@age:age of the dog
- *     *@owner: owner of the dog
- *      *Return: Shappered
- *       */
+ *  * _strcopy - Copies a string pointed to by src, including the
+ *   *            terminating null byte, to a buffer pointed to by dest.
+ *    * @dest: The buffer storing the string copy.
+ *     * @src: The source string.
+ *      *
+ *       * Return: The pointer to dest.
+ *        */
+char *_strcopy(char *dest, char *src)
+{
+		int index = 0;
+
+			for (index = 0; src[index]; index++)
+						dest[index] = src[index];
+
+				dest[index] = '\0';
+
+					return (dest);
+}
+
+/**
+ *  * new_dog - Creates a new dog.
+ *   * @name: The name of the dog.
+ *    * @age: The age of the dog.
+ *     * @owner: The owner of the dog.
+ *      *
+ *       * Return: The new struct dog.
+ *        */
 dog_t *new_dog(char *name, float age, char *owner)
 {
-		dog_t *shappered;
-			int nameLength, ownerLength, i;
+		dog_t *doggo;
 
-				nameLength = _strlen(name);
-					ownerLength = _strlen(owner);
+			if (name == NULL || age < 0 || owner == NULL)
+						return (NULL);
 
-							if (name == NULL || age < 0 || owner == NULL)
-											return (NULL);
+				doggo = malloc(sizeof(dog_t));
+					if (doggo == NULL)
+								return (NULL);
 
-								shappered = malloc(sizeof(dog_t));
-									if (shappered == NULL)
+						doggo->name = malloc(sizeof(char) * (_strlen(name) + 1));
+							if (doggo->name == NULL)
+									{
+												free(doggo);
+														return (NULL);
+															}
 
-												return (NULL);
-
-										nameLength = _strlen(name) + 1;
-											shappered->name = malloc(sizeof(char) * nameLength);
-												if (shappered->name == NULL)
-														{
-																	free(shappered->name);
-																			free(shappered);
-																					return (NULL);
-																						}
-
-													for (i = 0; i < nameLength; i++)
-															{
-																		shappered->name[i] = name[i];
+								doggo->owner = malloc(sizeof(char) * (_strlen(owner) + 1));
+									if (doggo->owner == NULL)
+											{
+														free(doggo->name);
+																free(doggo);
+																		return (NULL);
 																			}
 
-														shappered->age = age;
+										doggo->name = _strcopy(doggo->name, name);
+											doggo->age = age;
+												doggo->owner = _strcopy(doggo->owner, owner);
 
-
-															ownerLength = _strlen(owner) + 1;
-																shappered->owner =  malloc(sizeof(char) * ownerLength);
-																	if (shappered->owner == NULL)
-																			{
-																						free(shappered->name);
-																								free(shappered->owner);
-																										free(shappered);
-																												return (NULL);
-																													}
-
-																		for (i = 0; i < ownerLength; i++)
-																				{
-																							shappered->owner[i] = owner[i];
-																								}
-
-																			return (shapper
+													return (doggo);
+}
