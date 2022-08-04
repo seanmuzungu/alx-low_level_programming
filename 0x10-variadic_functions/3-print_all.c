@@ -1,113 +1,109 @@
 #include "variadic_functions.h"
-#include <stdio.h>
-#include <stdarg.h>
-
-void print_char(va_list arg);
-void print_int(va_list arg);
-void print_float(va_list arg);
-void print_string(va_list arg);
-void print_all(const char * const format, ...);
-
 /**
- * print_char - Prints a char.
- * @arg: A list of arguments pointing to
- *       the character to be printed.
- */
-void print_char(va_list arg)
-{
-	char letter;
-
-	letter = va_arg(arg, int);
-	printf("%c", letter);
-}
-
-/**
- * print_int - Prints an int.
- * @arg: A list of arguments pointing to
- *       the integer to be printed.
- */
-void print_int(va_list arg)
-{
-	int num;
-
-	num = va_arg(arg, int);
-	printf("%d", num);
-}
-
-/**
- * print_float - Prints a float.
- * @arg: A list of arguments pointing to
- *       the float to be printed.
- */
-void print_float(va_list arg)
-{
-	float num;
-
-	num = va_arg(arg, double);
-	printf("%f", num);
-}
-
-/**
- * print_string - Prints a string.
- * @arg: A list of arguments pointing to
- *       the string to be printed.
- */
-void print_string(va_list arg)
-{
-	char *str;
-
-	str = va_arg(arg, char *);
-
-	if (str == NULL)
-	{
-		printf("(nil)");
-		return;
-	}
-
-	printf("%s", str);
-}
-
-/**
- * print_all - Prints anything, followed by a new line.
- * @format: A string of characters representing the argument types.
- * @...: A variable number of arguments to be printed.
+ * print_all - prints anything
  *
- * Description: Any argument not of type char, int, float,
- *              or char * is ignored.
- *              If a string argument is NULL, (nil) is printed instead.
+ * @format: fotmat of characters (ceis)
+ *
+ * Return: void
  */
 void print_all(const char * const format, ...)
 {
-	va_list args;
-	int i = 0, j = 0;
-	char *separator = "";
-	printer_t funcs[] = {
-		{"c", print_char},
-		{"i", print_int},
-		{"f", print_float},
-		{"s", print_string}
+	/* with the type structure define now I can create the structure */
+	characters arraychars[] = {
+		{"c", printchar},
+		{"i", printinteger},
+		{"f", printfloat},
+		{"s", printstring},
+		{NULL, NULL}
 	};
+	/* two functions to run and compare */
+	int runf = 0;
+	int runarr = 0;
+	char *spacecomma = "";
+	va_list charlist;
+	/* initialiaze the iterator va_list with the first argument passed */
+	/* would be the variable tyupe va_list followed by the format */
+	va_start(charlist, format);
+	/* start running format */
 
-	va_start(args, format);
-
-	while (format && (*(format + i)))
+	while (format != NULL && format[runf] != '\0')
 	{
-		j = 0;
-
-		while (j < 4 && (*(format + i) != *(funcs[j].symbol)))
-			j++;
-
-		if (j < 4)
+		/* I have to decide the limit of the array */
+		/* the array has four elements */
+		runarr = 0;
+		while (runarr < 4)
 		{
-			printf("%s", separator);
-			funcs[j].print(args);
-			separator = ", ";
+			/* start comparition */
+			/* dereferenced to the pointer arguments */
+			if (format[runf] == *arraychars[runarr].arguments)
+			{
+				printf("%s", spacecomma);
+				arraychars[runarr].ptrfunc(charlist);
+				spacecomma = ", ";
+				break;
+			}
+			runarr++;
 		}
-
-		i++;
+		runf++;
 	}
-
 	printf("\n");
+	va_end(charlist);
+}
 
-	va_end(args);
+/**
+ * printchar - prints a char
+ *
+ * @charlist: type va_list that iterates through the arguments
+ *
+ * Return: void
+ */
+void printchar(va_list charlist)
+{
+	printf("%c", va_arg(charlist, int));
+}
+
+/**
+ * printinteger - prints an integer
+ *
+ * @charlist: type va_list that iterates through the arguments
+ *
+ * Return:void
+ */
+void printinteger(va_list charlist)
+{
+	printf("%d", va_arg(charlist, int));
+}
+
+/**
+ * printfloat - prints a double
+ *
+ * @charlist: type va_list that iterates through the arguments
+ *
+ * Return: void
+ */
+void printfloat(va_list charlist)
+{
+	printf("%f", va_arg(charlist, double));
+}
+
+/**
+ * printstring - prints a string
+ *
+ * @charlist: type va_list
+ *
+ * Return: void
+ */
+void printstring(va_list charlist)
+{
+	/* as the task show us, s : char * */
+	char *str;
+	/* de-reference str to the arg passed to the function */
+	/* through va_list, thats why va_arg */
+	str = va_arg(charlist, char *);
+	/* task condition */
+	if (str == NULL)
+		str = "(nil)";
+	/* if its NULL will print nil, else will print str */
+	/* as the argument passed through va_list */
+	printf("%s", str);
 }
