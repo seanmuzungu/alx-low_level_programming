@@ -1,109 +1,51 @@
 #include "variadic_functions.h"
-#include <string.h>
 
 /**
- * _isdigit - checks if character is digit
- * @c: the character to check
- * Return: 1 if digit, 0 otherwise
+ * print_all - prints anything
+ * @format: a list of types of arguments passed to the function
+ * Return: no return
  */
 
-int _isdigit(int c)
+void print_all(const char * const format, ...)
 {
- return (c >= '0' && c <= '9');
-}
+ va_list valist;
+ unsigned int i = 0, j, c = 0;
+ char *str;
+ const char t_arg[] = "cifs";
 
-/**
- * _strlen - returns the length of a string
- * @s: the string whose length to check
- * Return: integer length of string
- */
-int _strlen(char *s)
-{
- int i = 0;
-
- while (*s++)
-  i++;
- return (i);
-}
-
-/**
- * big_multiply - multiply two big number strings
- * @s1: the first big number string
- * @s2: the second big number string
- * Return: the product big number string
- */
-char *big_multiply(char *s1, char *s2)
-{
- char *r;
- int l1, l2, a, b, c, x;
-
- l1 = _strlen(s1);
- l2 = _strlen(s2);
- r = malloc(a = x = l1 + l2);
- if (!r)
-  printf("Error\n"), exit(98);
- while (a--)
-  r[a] = 0;
-
- for (l1--; l1 >= 0; l1--)
+ va_start(valist, format);
+ while (format && format[i])
  {
-  if (!_isdigit(s1[l1]))
+  j = 0;
+  while (t_arg[j])
   {
-   free(r);
-   printf("Error\n"), exit(98);
-  }
-  a = s1[l1] - '0';
-  c = 0;
-
-  for (l2 = _strlen(s2) - 1; l2 >= 0; l2--)
-  {
-   if (!_isdigit(s2[l2]))
+   if (format[i] == t_arg[j] && c)
    {
-    free(r);
-    printf("Error\n"), exit(98);
-   }
-   b = s2[l2] - '0';
-
-   c += r[l1 + l2 + 1] + (a * b);
-   r[l1 + l2 + 1] = c % 10;
-
-   c /= 10;
+    printf(", ");
+    break;
+   } j++;
   }
-  if (c)
-   r[l1 + l2 + 1] += c;
+  switch (format[i])
+  {
+   case 'c':
+    printf("%c", va_arg(valist, int)), c = 1;
+    break;
+   case 'i':
+    printf("%d", va_arg(valist, int)), c = 1;
+    break;
+   case 'f':
+    printf("%f", va_arg(valist, double)), c = 1;
+    break;
+   case 's':
+    str = va_arg(valist, char *), c = 1;
+    if (!str)
+    {
+     printf("(nil)");
+     break;
+    }
+    printf("%s", str);
+    break;
+  } i++;
  }
- return (r);
-}
-
-/**
- * main - multiply two big number strings
- * @argc: the number of arguments
- * @argv: the argument vector
- * Return: Always 0 on success
- */
-int main(int argc, char **argv)
-{
- char *r;
- int a, c, x;
-
- if (argc != 3)
-  printf("Error\n"), exit(98);
-
- x = _strlen(argv[1]) + _strlen(argv[2]);
- r = big_multiply(argv[1], argv[2]);
- c = 0;
- a = 0;
- while (c < x)
- {
-  if (r[c])
-   a = 1;
-  if (a)
-   _putchar(r[c] + '0');
-  c++;
- }
- if (!a)
-  _putchar('0');
- _putchar('\n');
- free(r);
- return (0);
+ printf("\n"), va_end(valist);
 }
