@@ -1,113 +1,108 @@
-#include "variadic_functions.h"
-#include <stdio.h>
-#include <stdarg.h>
-
-void print_char(va_list arg);
-void print_int(va_list arg);
-void print_float(va_list arg);
-void print_string(va_list arg);
-void print_all(const char * const format, ...);
-
+#include "main.h"
+#include<string.h>
 /**
- * print_char - Prints a char.
- * @arg: A list of arguments pointing to
- *       the character to be printed.
+ * _isdigit - checks if character is digit
+ * @c: the character to check
+ * Return: 1 if digit, 0 otherwise
  */
-void print_char(va_list arg)
-{
-	char letter;
 
-	letter = va_arg(arg, int);
-	printf("%c", letter);
+int _isdigit(int c)
+{
+ return (c >= '0' && c <= '9');
 }
 
 /**
- * print_int - Prints an int.
- * @arg: A list of arguments pointing to
- *       the integer to be printed.
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
+ * Return: integer length of string
  */
-void print_int(va_list arg)
+int _strlen(char *s)
 {
-	int num;
+ int i = 0;
 
-	num = va_arg(arg, int);
-	printf("%d", num);
+ while (*s++)
+  i++;
+ return (i);
 }
 
 /**
- * print_float - Prints a float.
- * @arg: A list of arguments pointing to
- *       the float to be printed.
+ * big_multiply - multiply two big number strings
+ * @s1: the first big number string
+ * @s2: the second big number string
+ * Return: the product big number string
  */
-void print_float(va_list arg)
+char *big_multiply(char *s1, char *s2)
 {
-	float num;
+ char *r;
+ int l1, l2, a, b, c, x;
 
-	num = va_arg(arg, double);
-	printf("%f", num);
+ l1 = _strlen(s1);
+ l2 = _strlen(s2);
+ r = malloc(a = x = l1 + l2);
+ if (!r)
+  printf("Error\n"), exit(98);
+ while (a--)
+  r[a] = 0;
+
+ for (l1--; l1 >= 0; l1--)
+ {
+  if (!_isdigit(s1[l1]))
+  {
+   free(r);
+   printf("Error\n"), exit(98);
+  }
+  a = s1[l1] - '0';
+  c = 0;
+
+  for (l2 = _strlen(s2) - 1; l2 >= 0; l2--)
+  {
+   if (!_isdigit(s2[l2]))
+   {
+    free(r);
+    printf("Error\n"), exit(98);
+   }
+   b = s2[l2] - '0';
+
+   c += r[l1 + l2 + 1] + (a * b);
+   r[l1 + l2 + 1] = c % 10;
+
+   c /= 10;
+  }
+  if (c)
+   r[l1 + l2 + 1] += c;
+ }
+ return (r);
 }
 
 /**
- * print_string - Prints a string.
- * @arg: A list of arguments pointing to
- *       the string to be printed.
+ * main - multiply two big number strings
+ * @argc: the number of arguments
+ * @argv: the argument vector
+ * Return: Always 0 on success
  */
-void print_string(va_list arg)
+int main(int argc, char **argv)
 {
-	char *str;
+ char *r;
+ int a, c, x;
 
-	str = va_arg(arg, char *);
+ if (argc != 3)
+  printf("Error\n"), exit(98);
 
-	if (str == NULL)
-	{
-		printf("(nil)");
-		return;
-	}
-
-	printf("%s", str);
-}
-
-/**
- * print_all - Prints anything, followed by a new line.
- * @format: A string of characters representing the argument types.
- * @...: A variable number of arguments to be printed.
- *
- * Description: Any argument not of type char, int, float,
- *              or char * is ignored.
- *              If a string argument is NULL, (nil) is printed instead.
- */
-void print_all(const char * const format, ...)
-{
-	va_list args;
-	int i = 0, j = 0;
-	char *separator = "";
-	printer_t funcs[] = {
-		{"c", print_char},
-		{"i", print_int},
-		{"f", print_float},
-		{"s", print_string}
-	};
-
-	va_start(args, format);
-
-	while (format && (*(format + i)))
-	{
-		j = 0;
-
-		while (j < 4 && (*(format + i) != *(funcs[j].symbol)))
-			j++;
-
-		if (j < 4)
-		{
-			printf("%s", separator);
-			funcs[j].print(args);
-			separator = ", ";
-		}
-
-		i++;
-	}
-
-	printf("\n");
-
-	va_end(args);
+ x = _strlen(argv[1]) + _strlen(argv[2]);
+ r = big_multiply(argv[1], argv[2]);
+ c = 0;
+ a = 0;
+ while (c < x)
+ {
+  if (r[c])
+   a = 1;
+  if (a)
+   _putchar(r[c] + '0');
+  c++;
+ }
+ if (!a)
+  _putchar('0');
+ _putchar('\n');
+ free(r);
+ return (0);
 }
