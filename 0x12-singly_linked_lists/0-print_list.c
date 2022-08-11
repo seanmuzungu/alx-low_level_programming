@@ -1,8 +1,10 @@
 #include "lists.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /**
  *print_list- a unction that list all elemnts of list_t
- *
  *@h: The list_t list
  *Return: the number of nodes in h
  */
