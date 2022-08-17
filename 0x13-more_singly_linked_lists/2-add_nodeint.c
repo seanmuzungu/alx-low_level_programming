@@ -7,20 +7,17 @@
  *     *@n:the number to be added to listint_t list
  *      *
  *       *Return: the address of the new element, or NULL if it failed
- *        */
+ */
+
 listint_t *add_nodeint(listint_t **head, const int n)
 {
+	listint_t *nptr;
 
-
-		listint_t *nptr;
-
-			nptr = malloc(sizeof(listint_t));
-				if (nptr == NULL)
-							return (NULL);
-
-					nptr->n = n;
-						nptr->next = *head;
-
-							*head = nptr;
-								return (nptr);
+	nptr = malloc(sizeof(listint_t));
+	if (nptr == NULL)
+		return (NULL);
+	nptr->n = n;
+	nptr->next = *head;
+	*head = nptr;
+	return (nptr);
 }
