@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 /**
  *  *flip_bits-counts how many bits need to be flipped in n to be m
  *   *@n: the original number
