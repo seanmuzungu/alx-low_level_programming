@@ -55,7 +55,8 @@ void close_file(int fd)
  *         *              If file_from does not exist or cannot be read - exit code 98.
  *          *              If file_to cannot be created or written to - exit code 99.
  *           *              If file_to or file_from cannot be closed - exit code 100.
- *            */
+ */
+
 int main(int argc, char *argv[])
 {
 		int from, to, r, w;
